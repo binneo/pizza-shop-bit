@@ -17,10 +17,44 @@ document.addEventListener('DOMContentLoaded', ()=>{
   const btcBtn = document.getElementById('pay-btc');
   const btcModal = document.getElementById('btc-modal');
   const btcClose = document.getElementById('btc-close');
+
+  function closeOverlay(root){
+    if(!root || root.hidden) return;
+    root.hidden = true;
+    root.dispatchEvent(new CustomEvent('closed'));
+    // return focus to main content for accessibility
+    document.getElementById('main')?.focus();
+  }
+
   btcBtn.addEventListener('click', ()=>{
     btcModal.hidden = false;
+    // focus first focusable in modal for accessibility
+    setTimeout(()=>{
+      const focusable = btcModal.querySelector('button, [href], input, select, textarea');
+      if(focusable) focusable.focus();
+    }, 60);
   });
-  btcClose.addEventListener('click', ()=>{btcModal.hidden = true});
+
+  // explicit close handlers (click + pointerdown for touch)
+  if(btcClose){
+    btcClose.addEventListener('click', (e)=>{ e.preventDefault(); closeOverlay(btcModal); });
+    btcClose.addEventListener('pointerdown', (e)=>{ e.preventDefault(); closeOverlay(btcModal); });
+  }
+
+  // close modal by clicking the backdrop
+  btcModal.addEventListener('click', (e)=>{ if(e.target === btcModal) closeOverlay(btcModal); });
+
+  // generic dismiss handler for overlays / toasts (matching data-dismiss or common classes)
+  document.addEventListener('click', (e)=>{
+    const dismiss = e.target.closest('[data-dismiss], .modal-close, .toast-close, button[aria-label="Close"]');
+    if(!dismiss) return;
+    const root = dismiss.closest('.modal, .toast, .overlay');
+    if(root){
+      e.preventDefault(); e.stopPropagation();
+      closeOverlay(root);
+    }
+  });
+
   // close modal with Escape
   document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape' && !btcModal.hidden) btcModal.hidden = true; });
 
