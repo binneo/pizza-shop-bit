@@ -61,8 +61,13 @@ document.addEventListener('DOMContentLoaded', ()=>{
     }
   });
 
-  // close modal with Escape
-  document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape' && !btcModal.hidden) btcModal.hidden = true; });
+  // close modal with Escape (use shared closeOverlay helper)
+  document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape' && btcModal && !btcModal.hidden) closeOverlay(btcModal); });
+
+  // ensure a simple click handler exists for the close button (non-capture)
+  if(btcClose){
+    btcClose.addEventListener('click', (e)=>{ e.preventDefault(); closeOverlay(btcModal); });
+  }
 
   // Pizza Day countdown (Feb 9)
   const countdown = document.getElementById('countdown');
