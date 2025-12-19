@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Bit Pizzeria — Satoshi-approved Slices</title>
+  <meta name="description" content="Bit Pizzeria — Bitcoin-friendly pizza shop. Celebrate Pizza Day with special BTC deals!" />
+  <meta property="og:title" content="Bit Pizzeria — Pizza Day Specials" />
+  <meta property="og:description" content="Satoshi-approved slices. 50% off on Pizza Day when you pay with BTC." />
+  <meta name="theme-color" content="#f2a900">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="#">
+        <span class="coin" aria-hidden="true">₿</span>
+        <span class="brand-text">Bit Pizzeria</span>
+      </a>
+      <button id="nav-toggle" class="nav-toggle" aria-expanded="false" aria-controls="nav-links" aria-label="Toggle navigation">☰</button>
+      <nav class="nav-links" id="nav-links" role="navigation" aria-label="Main navigation">
+        <a href="#menu">Menu</a>
+        <a href="#specials">Pizza Day</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" role="main">
+    <section class="hero" data-animate="section">
+      <div class="container hero-inner" data-animate="stagger">
+        <div class="hero-copy" data-animate="item">
+          <h1>Bit Pizzeria</h1>
+          <p class="tagline">Satoshi-approved slices — crypto welcomed, always delicious.</p>
+          <div class="hero-cta" data-animate="item">
+            <a class="btn primary" href="#menu">View Menu</a>
+            <button id="pay-btc" class="btn ghost">Pay with Bitcoin</button>
+          </div>
+        </div>
+        <div class="hero-art" aria-hidden="true" data-animate="item">
+          <!-- inline pizza + bitcoin icon -->
+          <img src="assets/pizza.svg" alt="Pizza illustration" class="pizza-illustration">
+        </div>
+      </div>
+    </section>
+
+    <section id="specials" class="promo container" data-animate="section">
+      <div class="promo-left" data-animate="item">
+        <h2>Pizza Day — Feb 9 🍕</h2>
+        <p>Celebrate Pizza Day with us! Get <strong>50% off</strong> when you pay with Bitcoin on Feb 9.</p>
+        <p id="countdown" class="countdown" aria-live="polite">Calculating time to Pizza Day…</p>
+        <div class="promo-actions">
+          <button id="celebrate-btn" class="btn primary" aria-label="Celebrate Pizza Day">Celebrate</button>
+          <label class="confetti-toggle" for="confetti-emoji"><input type="checkbox" id="confetti-emoji" checked aria-label="Use emoji confetti"> Use emoji confetti (🍕/₿)</label>
+          <label class="confetti-toggle" for="confetti-sprite"><input type="checkbox" id="confetti-sprite" aria-label="Use image sprites"> Use image sprites</label>
+          <label class="confetti-toggle" for="confetti-sound"><input type="checkbox" id="confetti-sound" aria-label="Enable confetti sound"> Sound</label>
+          <div class="confetti-stats">Launched: <span id="confetti-count">0</span></div>
+        </div>
+      </div>
+      <div class="promo-right">
+        <div class="promo-card" data-animate="item">
+          <div class="promo-coin">₿</div>
+          <div class="promo-info">
+            <h3>BTC Friendly</h3>
+            <p>Tap "Pay with Bitcoin" at checkout to see our QR code and lightning options.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="menu" class="container menu">
+      <h2>Menu</h2>
+      <div class="menu-grid">
+        <article class="menu-item" data-animate="card">
+          <h3>Margherita</h3>
+          <p>San Marzano, fresh mozzarella, basil — classic.</p>
+          <div class="price">$12</div>
+        </article>
+
+        <article class="menu-item" data-animate="card">
+          <h3>Pepperoni</h3>
+          <p>Double pepperoni, house tomato sauce, oregano.</p>
+          <div class="price">$14</div>
+        </article>
+
+        <article class="menu-item" data-animate="card">
+          <h3>Crypto Special</h3>
+          <p>Peppered ricotta, spicy honey, and a Bitcoin glaze (limited).</p>
+          <div class="price">$16</div>
+        </article>
+      </div>
+    </section>
+
+    <section id="contact" class="container contact">
+      <h2>Get in touch</h2>
+      <p>Find us at 123 Blockchain Ave — or email hello@bitpizzeria.example</p>
+      <p class="note">Open daily — follow us for Pizza Day announcements.</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div>© <span id="year"></span> Bit Pizzeria</div>
+      <div class="footer-links">Made with ❤️ and ₿ — <a href="#specials">Pizza Day</a></div>
+    </div>
+  </footer>
+
+  <div id="btc-modal" class="modal" hidden>
+    <div class="modal-inner">
+      <button id="btc-close" class="modal-close" aria-label="Close">×</button>
+      <h3>Pay with Bitcoin</h3>
+      <p>Scan this QR in your wallet (example):</p>
+      <div class="qr-placeholder">[QR CODE]</div>
+      <p class="small">Using testnet address for demo: <code>tb1qexample...</code></p>
+    </div>
+  </div>
+
+  <!-- Confetti canvas (used on Pizza Day / when celebrating) -->
+  <canvas id="confetti-canvas" class="confetti-canvas" aria-hidden="true"></canvas>
+
+  <script src="script.js"></script>
+</body>
+</html>
