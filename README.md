@@ -15,7 +15,7 @@ How to view locally:
    - `python3 -m http.server 8000` then open http://localhost:8000
 
 Notes:
-- The "Pay with Bitcoin" button shows a demo modal and a placeholder QR.
+- The "Pay with Bitcoin" button links to the Contact section (the overlay QR modal was removed per request).
 - Pizza Day is hard-coded as Feb 9 and a simple countdown is shown on the homepage. On Pizza Day the site triggers a confetti celebration and you can also trigger a celebration manually using the "Celebrate" button in the Pizza Day section. You can toggle emoji confetti (🍕/₿) via the checkbox in the Pizza Day promo — the engine keeps particle counts limited and respects `prefers-reduced-motion` for a lightweight, accessible experience.
 - Optionally use image sprites (better crispness on some platforms) with the "Use image sprites" checkbox.
 - Opt into a short confetti sound via the "Sound" checkbox. Sound is off by default to respect users and browsers, and the engine only plays a short per-burst pop when enabled.

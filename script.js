@@ -13,11 +13,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
     else navLinks.style.display = 'flex';
   });
 
-  // btc modal
-  const btcBtn = document.getElementById('pay-btc');
-  const btcModal = document.getElementById('btc-modal');
-  const btcClose = document.getElementById('btc-close');
-
+  // Note: the BTC modal overlay was removed per request. Keep a generic close helper available for other overlays/toasts.
   function closeOverlay(root){
     if(!root || root.hidden) return;
     // set hidden + aria-hidden for accessibility
@@ -28,27 +24,6 @@ document.addEventListener('DOMContentLoaded', ()=>{
     // return focus to main content for accessibility
     document.getElementById('main')?.focus();
   }
-
-  btcBtn.addEventListener('click', ()=>{
-    btcModal.hidden = false;
-    // focus first focusable in modal for accessibility
-    setTimeout(()=>{
-      const focusable = btcModal.querySelector('button, [href], input, select, textarea');
-      if(focusable) focusable.focus();
-    }, 60);
-  });
-
-  // explicit close handlers (click + pointerdown for touch)
-  if(btcClose){
-    // capture click to ensure we get the event before overlay interference
-    btcClose.addEventListener('click', (e)=>{ e.preventDefault(); closeOverlay(btcModal); }, {capture:true});
-    btcClose.addEventListener('pointerdown', (e)=>{ e.preventDefault(); closeOverlay(btcModal); }, {passive:false});
-    btcClose.addEventListener('pointerup', (e)=>{ e.preventDefault(); closeOverlay(btcModal); });
-    btcClose.addEventListener('touchend', (e)=>{ e.preventDefault(); closeOverlay(btcModal); }, {passive:false});
-  }
-
-  // close modal by clicking the backdrop
-  btcModal.addEventListener('click', (e)=>{ if(e.target === btcModal) closeOverlay(btcModal); });
 
   // generic dismiss handler for overlays / toasts (matching data-dismiss or common classes)
   document.addEventListener('click', (e)=>{
@@ -61,13 +36,13 @@ document.addEventListener('DOMContentLoaded', ()=>{
     }
   });
 
-  // close modal with Escape (use shared closeOverlay helper)
-  document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape' && btcModal && !btcModal.hidden) closeOverlay(btcModal); });
-
-  // ensure a simple click handler exists for the close button (non-capture)
-  if(btcClose){
-    btcClose.addEventListener('click', (e)=>{ e.preventDefault(); closeOverlay(btcModal); });
-  }
+  // close any visible overlays with Escape
+  document.addEventListener('keydown', (e)=>{
+    if(e.key === 'Escape'){
+      const open = document.querySelector('.modal:not([hidden]), .overlay:not([hidden])');
+      if(open) closeOverlay(open);
+    }
+  });
 
   // Pizza Day countdown (Feb 9)
   const countdown = document.getElementById('countdown');
