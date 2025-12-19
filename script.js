@@ -20,7 +20,10 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
   function closeOverlay(root){
     if(!root || root.hidden) return;
-    root.hidden = true;
+    // set hidden + aria-hidden for accessibility
+    try{ root.hidden = true; root.setAttribute('aria-hidden','true'); }catch(e){}
+    // fallback: also set display none briefly to ensure it is non-interactive in all browsers
+    try{ root.style.display = 'none'; setTimeout(()=>{ root.style.display = ''; }, 30); }catch(e){}
     root.dispatchEvent(new CustomEvent('closed'));
     // return focus to main content for accessibility
     document.getElementById('main')?.focus();
@@ -37,8 +40,11 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
   // explicit close handlers (click + pointerdown for touch)
   if(btcClose){
-    btcClose.addEventListener('click', (e)=>{ e.preventDefault(); closeOverlay(btcModal); });
-    btcClose.addEventListener('pointerdown', (e)=>{ e.preventDefault(); closeOverlay(btcModal); });
+    // capture click to ensure we get the event before overlay interference
+    btcClose.addEventListener('click', (e)=>{ e.preventDefault(); closeOverlay(btcModal); }, {capture:true});
+    btcClose.addEventListener('pointerdown', (e)=>{ e.preventDefault(); closeOverlay(btcModal); }, {passive:false});
+    btcClose.addEventListener('pointerup', (e)=>{ e.preventDefault(); closeOverlay(btcModal); });
+    btcClose.addEventListener('touchend', (e)=>{ e.preventDefault(); closeOverlay(btcModal); }, {passive:false});
   }
 
   // close modal by clicking the backdrop
